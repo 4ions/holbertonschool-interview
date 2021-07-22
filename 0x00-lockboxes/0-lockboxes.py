@@ -17,12 +17,8 @@ def addKeys(keyInBox, keys):
     return keys
 
 
-def _canUnlockAll(boxes, keys, index):
+def _canUnlockAll(boxes, keys):
     """ check each box to find keys """
-    if index not in keys:
-        return keys
-    count = 0
-    count2 = 0
     no_in_key = []
     for box in range(0, len(boxes)):
         if box in keys:
@@ -31,7 +27,7 @@ def _canUnlockAll(boxes, keys, index):
             no_in_key.append(box)
     for no in no_in_key:
         if no in keys:
-            _canUnlockAll(boxes, keys, box)
+            keys = _canUnlockAll(boxes, keys)
     return keys
 
 
@@ -39,10 +35,12 @@ def canUnlockAll(boxes):
     """ function to unlock boxes with keys """
     if len(boxes) == 0:
         return False
+    if type(boxes) is not list:
+        return False
     keys = []
     keys = addKeys(boxes[0], keys)
-    count = _canUnlockAll(boxes, keys, 0)
-    if len(keys) == len(boxes):
+    keys = _canUnlockAll(boxes, keys)
+    if len(keys) - 1 == len(boxes) - 1:
         return True
     else:
         return False
