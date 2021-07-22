@@ -17,6 +17,8 @@ def canUnlockAll(boxes):
     """
     unlock boxes
     """
+    if len(boxes) == 0:
+        return False
     keys = []
     keys = addKeys(boxes[0], keys)
     count = 0
