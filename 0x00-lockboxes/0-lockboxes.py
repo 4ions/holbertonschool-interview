@@ -29,7 +29,6 @@ def canUnlockAll(boxes):
     if type(boxes) is not list:
         return False
     keys = [0]
-    keys = addKeys(boxes[0], keys)
     keys = _canUnlockAll(boxes, keys)
     if len(keys) - 1 == len(boxes) - 1:
         return True
