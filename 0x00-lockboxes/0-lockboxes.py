@@ -6,23 +6,14 @@ and each box may contain keys to the other boxes.
 """
 
 
-def addKeys(keyInBox, keys):
-    """ add keys to list """
-    if 0 not in keys:
-        keys.append(0)
-    for box in keyInBox:
-        if box not in keys:
-            keys.append(box)
-    keys.sort()
-    return keys
-
-
 def _canUnlockAll(boxes, keys):
     """ check each box to find keys """
     no_in_key = []
     for box in range(0, len(boxes)):
         if box in keys:
-            keys = addKeys(boxes[box], keys)
+            for key in boxes[box]:
+                if key not in keys and key < len(boxes):
+                    keys.append(key)
         if box not in keys:
             no_in_key.append(box)
     for no in no_in_key:
@@ -37,7 +28,7 @@ def canUnlockAll(boxes):
         return False
     if type(boxes) is not list:
         return False
-    keys = []
+    keys = [0]
     keys = addKeys(boxes[0], keys)
     keys = _canUnlockAll(boxes, keys)
     if len(keys) - 1 == len(boxes) - 1:
