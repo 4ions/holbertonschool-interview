@@ -1,77 +1,41 @@
-#!/usr/bin/python3
-""" doc """
+#!/usr/bin/env python3
+""" The N queens puzzle is the challenge of placing N non-attacking queens on
+    an N×N chessboard. Write a program that solves the N queens problem.
+    Usage: nqueens N
+        If the user called the program with the wrong number of arguments,
+        print Usage: nqueens N, followed by a new line,
+        and exit with the status 1
+    where N must be an integer greater or equal to 4
+        If N is not an integer, print N must be a number,
+        followed by a new line, and exit with the status 1
+        If N is smaller than 4, print N must be at least 4,
+        followed by a new line, and exit with the status 1
+    The program should print every possible solution to the problem
+        One solution per line
+        You don’t have to print the solutions in a specific order
+    You are only allowed to import the sys module """
 import sys
-if len(sys.argv) != 2:
-    print("Usage: nqueens N")
-    exit(1)
-try:
-    N = eval(sys.argv[1])
-except Exception:
-    print("N must be a number")
-    exit(1)
-if (N < 4):
-    print('N must be at least 4')
-    exit(1)
-Grid = [[0]*N for _ in range(N)]
-Nq = [N]
-solution = []
 
 
-def attack(i, j):
-    """ doc """
-    for k in range(N):
-        if Grid[i][k] == 1 or Grid[k][j] == 1:
-            return True
-    for k in range(N):
-        for z in range(N):
-            if (k + z == i + j) or (k - z == i - j):
-                if Grid[k][z] == 1:
-                    return True
-    return False
+def nqueens(n: int):
+    """
+    backtracking
+    """
+    matrix = [[0 for x in range(n)] for y in range(n)]
+    print(str(matrix))
 
 
-def Nqueens(n, x):
-    """ doc """
-    for i in range(x, N):
-        for j in range(N):
-            if (not(attack(i, j))) and (Grid[i][j] != 1):
-                Grid[i][j] = 1
-                Nq[0] = Nq[0] - 1
-                Nqueens(n - 1, i + 1)
-                if Nq[0] == 0:
-                    position()
-                Grid[i][j] = 0
-                Nq[0] = Nq[0] + 1
-    return False
+if __name__ == "__main__":
+    if len(sys.argv) > 2 or len(sys.argv) < 2:
+        print("Usage: nqueens N")
+        exit(1)
 
+    if not sys.argv[1].isdigit():
+        print("N must be a number")
+        exit(1)
 
-def reset(N):
-    """ doc """
-    for k in range(N):
-        for z in range(N):
-            Grid[k][z] = 0
+    if int(sys.argv[1]) < 4:
+        print("N must be at least 4")
+        exit(1)
 
-
-def validate(N):
-    """ doc """
-    suma = 0
-    store = []
-    for k, i in enumerate(Grid):
-        if 1 in i:
-            store.append([k, i.index(1)])
-            suma += 1
-    if suma == N:
-        return store
-    else:
-        return []
-
-
-def position():
-    """ doc """
-    x = validate(N)
-    if len(x) == N and x not in solution:
-        print(x)
-        solution.append(x)
-
-
-Nqueens(N, 0)
+    nqueens(int(sys.argv[1]))
